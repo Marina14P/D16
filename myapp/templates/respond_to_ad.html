@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Respond to Ad</title>
+</head>
+<body>
+    <h2>Respond to Ad: {{ ad.title }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit Response</button>
+    </form>
+</body>
+</html>

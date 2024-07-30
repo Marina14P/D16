@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ ad.title }}</title>
+</head>
+<body>
+    <h2>{{ ad.title }}</h2>
+    <p>{{ ad.content }}</p>
+    <p>Category: {{ ad.category.name }}</p>
+    <p>Author: {{ ad.author.username }}</p>
+    <h3>Responses</h3>
+    <ul>
+        {% for response in responses %}
+        <li>{{ response.content }} - {{ response.author.username }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'respond_to_ad' ad.id %}">Respond to this Ad</a>
+</body>
+</html>
