@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}All Ads{% endblock %}
+
+{% block content %}
+<h2>All Ads</h2>
+<ul>
+    {% for ad in ads %}
+    <li>
+        <a href="{% url 'ad_detail' ad.id %}">{{ ad.title }}</a> - {{ ad.author.username }}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

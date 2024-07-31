@@ -9,4 +9,5 @@ urlpatterns = [
     path('responses/', views.manage_responses, name='manage_responses'),
     path('responses/<int:response_id>/accept/', views.accept_response, name='accept_response'),
     path('responses/<int:response_id>/delete/', views.delete_response, name='delete_response'),
+    path('ads/', views.all_ads, name='all_ads'),  # Новый маршрут
 ]

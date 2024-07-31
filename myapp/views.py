@@ -36,9 +36,10 @@ def create_ad(request):
             ad.author = request.user
             ad.save()
             return redirect('ad_detail', ad_id=ad.id)
-    else:
-        form = AdForm()
-    return render(request, 'create_ad.html', {'form': form})
+        else:
+            form = AdForm()
+        categories = Category.objects.all()
+        return render(request, 'create_ad.html', {'form': form, 'categories': categories})
 
 @login_required
 def ad_detail(request, ad_id):
@@ -92,3 +93,23 @@ def delete_response(request, response_id):
     response = get_object_or_404(Response, id=response_id)
     response.delete()
     return redirect('manage_responses')
+
+# Existing views ...
+
+def all_ads(request):
+    ads = Ad.objects.all()
+    return render(request, 'all_ads.html', {'ads': ads})
+
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            # Invalid login
+            return render(request, 'login.html', {'error': 'Invalid login credentials'})
+    else:
+        return render(request, 'login.html')
