@@ -15,3 +15,9 @@
 </ul>
 <a href="{% url 'respond_to_ad' ad.id %}">Respond to this Ad</a>
 {% endblock %}
+
+@login_required
+def ad_detail(request, ad_id):
+    ad = get_object_or_404(Ad, id=ad_id)
+    responses = Response.objects.filter(ad=ad)
+    return render(request, 'ad_detail.html', {'ad': ad, 'responses': responses})

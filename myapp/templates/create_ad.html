@@ -10,3 +10,17 @@
     <button type="submit">Create Ad</button>
 </form>
 {% endblock %}
+
+@login_required
+def create_ad(request):
+    if request.method == 'POST':
+        form = AdForm(request.POST)
+        if form.is_valid():
+            ad = form.save(commit=False)
+            ad.author = request.user
+            ad.save()
+            return redirect('ad_detail', ad_id=ad.id)
+    else:
+        form = AdForm()
+    categories = Category.objects.all()
+    return render(request, 'create_ad.html', {'form': form, 'categories': categories})

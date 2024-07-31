@@ -12,3 +12,8 @@
     {% endfor %}
 </ul>
 {% endblock %}
+
+@login_required
+def all_ads(request):
+    ads = Ad.objects.all()
+    return render(request, 'all_ads.html', {'ads': ads})

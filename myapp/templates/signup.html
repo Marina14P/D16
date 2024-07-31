@@ -11,3 +11,24 @@
 </form>
 {% endblock %}
 
+def sign_up(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            user.refresh_from_db()
+            user.email = form.cleaned_data.get('email')
+            user.save()
+            send_mail(
+                'Registration Confirmation',
+                'Welcome to our site! Please confirm your email address.',
+                settings.DEFAULT_FROM_EMAIL,
+                [user.email],
+                fail_silently=False,
+            )
+            login(request, user)
+            return redirect('home')
+    else:
+        form = SignUpForm()
+    return render(request, 'signup.html', {'form': form})
+

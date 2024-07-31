@@ -10,3 +10,25 @@
     <button type="submit">Submit Response</button>
 </form>
 {% endblock %}
+
+@login_required
+def respond_to_ad(request, ad_id):
+    ad = get_object_or_404(Ad, id=ad_id)
+    if request.method == 'POST':
+        form = ResponseForm(request.POST)
+        if form.is_valid():
+            response = form.save(commit=False)
+            response.ad = ad
+            response.author = request.user
+            response.save()
+            send_mail(
+                'New Response to Your Ad',
+                f'You have a new response to your ad "{ad.title}".',
+                settings.DEFAULT_FROM_EMAIL,
+                [ad.author.email],
+                fail_silently=False,
+            )
+            return redirect('ad_detail', ad_id=ad.id)
+    else:
+        form = ResponseForm()
+    return render(request, 'respond_to_ad.html', {'form': form, 'ad': ad})

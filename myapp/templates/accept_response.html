@@ -1,0 +1,13 @@
+@login_required
+def accept_response(request, response_id):
+    response = get_object_or_404(Response, id=response_id)
+    response.is_accepted = True
+    response.save()
+    send_mail(
+        'Your Response was Accepted',
+        f'Your response to the ad "{response.ad.title}" was accepted.',
+        settings.DEFAULT_FROM_EMAIL,
+        [response.author.email],
+        fail_silently=False,
+    )
+    return redirect('manage_responses')

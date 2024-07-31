@@ -16,3 +16,8 @@
     {% endfor %}
 </ul>
 {% endblock %}
+
+@login_required
+def manage_responses(request):
+    responses = Response.objects.filter(ad__author=request.user)
+    return render(request, 'manage_responses.html', {'responses': responses})

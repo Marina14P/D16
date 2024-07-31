@@ -1,0 +1,5 @@
+@login_required
+def delete_response(request, response_id):
+    response = get_object_or_404(Response, id=response_id)
+    response.delete()
+    return redirect('manage_responses')
